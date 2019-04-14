@@ -1,0 +1,72 @@
+{% extends "twitter_clone_app/template.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'twitter_clone_app/css/profile.css' %}">
+    <script>userFollowedPost = false;</script>
+
+
+    <div class="container">
+        <table>
+            <tbody>
+            <tr>
+                <td rowspan="2">
+                    <img class="profilePic" src="{% static 'twitter_clone_app/images/7160.jpg' %}" alt="profilePic">
+                </td>
+                <td>
+                    <h1>
+                        @{{ user_requested.username }}
+                    </h1>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>
+                        <i class="fas fa-users"></i> {{ user_requested.userprofile.followers.all.count }}
+                        <i class="fas fa-heart"></i> {{ user_requested.likes.all.count }} &nbsp;
+                        <i class="fas fa-comment"></i> {{ chirpListPosted.all.count }}
+                    <form method="post">
+                        {% csrf_token %}
+                        {% for userProfile in userProfileFollowed %}
+                            {% if userProfile == user_requested.userprofile %}
+                                <button type="submit" name="follow" value="{{ user_requested.userprofile.id }}"
+                                        class="btn-primary" style="background-color: #19865C;border: #19865C">Followed
+                                </button>
+                                <script>userFollowedPost = true;</script>
+                            {% endif %}
+                        {% endfor %}
+                        <script>
+                            if (userFollowedPost === false) {
+                                document.write("<button type=\"submit\" name=\"follow\" value=\"{{ user_requested.userprofile.id }}\"\n" +
+                                    "                                    class=\"btn-primary\" style=\"background-color: #blue\">Follow\n" +
+                                    "                            </button>")
+                            }
+                        </script>
+                    </form>
+
+                    </p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+
+    <div class="container chirps">
+        {% for chirpLiked in chirpListLiked reversed %}
+            <div id="feedChirp">
+                <p class="author"><a href="/profile/{{ chirpLiked.author }}/">{{ chirpLiked.author }}</a> &#8226; <em
+                        class="date">{{ chirpLiked.date_posted | date:"M d, Y" }}</em></p>
+                <p class="chirpContent">
+                    {{ chirpLiked.tweet_text }}
+                </p>
+                <form>
+                    <i name="chirp" value="{{ chirpLiked.id }}}" class="fas fa-heart heart-btn"
+                       style="font-size:15px;color:darkred"></i>
+                    {{ chirpLiked.likes.all.count }}
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends "twitter_clone_app/template.html" %}
+
+
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'twitter_clone_app/css/login.css' %}">
+<div class="align">
+  <div class="grid">
+    <div class="container login_form">
+      <img class="login_logo" src="{% static 'twitter_clone_app/images/chirp.gif' %}" alt="">
+      <form id="login-form" action="#" method="POST" role="form" style="display: block;">
+        {% csrf_token %}
+        <!-- Protection, required for POST method in django -->
+
+        <div class="form-group">
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text lnr lnr-user" id="basic-addon1"></span>
+            </div>
+            <input type="text" class="form-control" placeholder="Username" name="username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text lnr lnr-lock" id="basic-addon1"></span>
+            </div>
+            <input class="form-control" placeholder="Password" name="password" type="password" value="" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+
+
+        </div>
+        <input class="btn btn-primary btn-block" type="submit" value="Login">
+        <!--Sends a POST request to views.py -->
+      </form>
+      <p class="text--center">Not a member?<a class="btn btn-link" href="/registration">Sign up now</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
